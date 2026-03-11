@@ -11,7 +11,6 @@ public class Course
     public int CourseSeats { get; set; }   
     public string RequiredProgram { get; private set; } // Hvilket studieprogram kreves for å ta dette kurset, låses etter opprettelse
   
-
     //Lager en liste "alle user" funker ikke for exchange students hvis det settes "student"
     public List<User> EnrolledStudents { get; private set; } = new(); 
 
