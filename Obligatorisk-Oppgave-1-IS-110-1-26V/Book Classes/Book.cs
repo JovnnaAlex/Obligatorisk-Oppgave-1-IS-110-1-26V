@@ -11,7 +11,7 @@ public class Book
     public int Year { get; set; }
     public int Available { get; set; }  // Eksemplarer tilgjengelig
 
-
+//konstruktør
     public Book(string bookId, 
                 string title, 
                 string author, 

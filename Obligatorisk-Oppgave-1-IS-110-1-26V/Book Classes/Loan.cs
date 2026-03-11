@@ -26,7 +26,8 @@ public class Loan
         LoanDate = loanDate;
         DueDate = dueDate;
     }
-
+    // Metode for å registrere at boka er levert, og sette returnDate til dagens dato
+    // Når denne metoden kalles, settes ReturnDate til dagens dato, og IsReturned vil da returnere true
     public void RegisterReturn(DateTime returnDate)
     {
         ReturnDate = returnDate;
