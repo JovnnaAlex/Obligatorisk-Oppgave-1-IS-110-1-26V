@@ -38,7 +38,7 @@ public class ExchangeStudent : User
      public override void PrintUserInfo() // Erstatter den abstrakte metoden i UserAbstract, og returnerer "Student" for denne klassen
     {
         base.PrintUserInfo(); // Kaller den virtuelle metoden i User klassen for å skrive ut navn og e-post
-        Console.WriteLine($"Exchange Student ID: {ExStudentId}, Home University: {HomeUniversity}, Country: {Country}, Period: {PeriodFrom} to {PeriodTo}"); // Skriver ut exchange studentens ID og informasjon, Navn og e-post kommer fra User klassen
+        Console.WriteLine($"Exchange Student ID: {ExStudentId}, Exchange Study Program: {ExStudyProgram}, Home University: {HomeUniversity}, Country: {Country}, Period: {PeriodFrom} to {PeriodTo}"); // Skriver ut exchange studentens ID og informasjon, Navn og e-post kommer fra User klassen
     }
 }
 
