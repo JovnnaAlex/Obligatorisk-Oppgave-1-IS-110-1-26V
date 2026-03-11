@@ -14,7 +14,6 @@ public class Course
     //Lager en liste "alle user" funker ikke for exchange students hvis det settes "student"
     public List<User> EnrolledStudents { get; private set; } = new(); 
 
-    
     // Konstruktør
     public Course(string courseId, 
                   string courseName, 

@@ -1,4 +1,4 @@
-﻿
+
 using Application;
 //----Lager tomme lister for å holde på data----
 
