@@ -858,11 +858,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jovnn\\documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj",
+      "projectUniqueName": "C:\\Users\\Jovnn\\Documents\\C#\\IS110_del2MEDTEST\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj",
       "projectName": "Obligatorisk_oppgave",
-      "projectPath": "C:\\Users\\Jovnn\\documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj",
+      "projectPath": "C:\\Users\\Jovnn\\Documents\\C#\\IS110_del2MEDTEST\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj",
       "packagesPath": "C:\\Users\\Jovnn\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jovnn\\documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\obj\\",
+      "outputPath": "C:\\Users\\Jovnn\\Documents\\C#\\IS110_del2MEDTEST\\Obligatorisk-Oppgave-1-IS-110-1-26V\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jovnn\\AppData\\Roaming\\NuGet\\NuGet.Config"
