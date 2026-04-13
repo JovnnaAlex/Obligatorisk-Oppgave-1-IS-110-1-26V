@@ -7,27 +7,30 @@ namespace Application;
 public class Employee : User
 {
     // Deklarerer verdier med auto-imp
-    public string EmployeeId { get; private set; }   // //ID skal låses etter objektet er laget
+   //public string EmployeeId { get; private set; }   // //ID skal låses etter objektet er laget
     public string Department { get; set; }           // Avdeling kan endres 
     public string Position { get; set; }             // Stilling kan endres
 
     // Konstruktør
-    public Employee(string name, 
-                    string email, 
-                    string employeeId, 
-                    string department,
-                    string position)    
+    public Employee(string id, 
+                   string name, 
+                   string email, 
+                   string username,
+                   string password,
+                   string department,
+                   string position)   
+        // : base = lager student objekt etter user klassen har kjørt sin konstruktør.
+        // Vi kaller "protected user" 
+        : base(id, name, email, username, password, role: "Employee") // Kaller konstruktøren i User klassen for å sette de felles verdiene 
     {
-        Name = name;             // fra User klassen
-        Email = email;           // fra User klassen
-        EmployeeId = employeeId; // unik ID for ansatte
         Department = department; // hvilken avdeling de jobber i
         Position = position;     // hvilken stilling de har 
     }
-    public override void PrintUserInfo() // Erstatter den abstrakte metoden i UserAbstract, og returnerer "Student" for denne klassen
+    public override void PrintUserInfo() // Overstyrer PrintUserInfo fra User for å vise ansatt‑spesifikk info
+
     {
         base.PrintUserInfo(); // Kaller den virtuelle metoden i User klassen for å skrive ut navn og e-post
-        Console.WriteLine($"Employee ID: {EmployeeId}, Department: {Department}, Position: {Position}"); // Skriver ut ansattens ID og informasjon, Navn og e-post kommer fra User klassen
+        Console.WriteLine($"Department: {Department}, Position: {Position}"); // Skriver ut ansattens ID og informasjon, Navn og e-post kommer fra User klassen
     }
 }
 
