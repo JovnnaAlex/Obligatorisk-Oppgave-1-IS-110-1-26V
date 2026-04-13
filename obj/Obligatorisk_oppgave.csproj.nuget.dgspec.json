@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jovnn\\Documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj": {}
+    "C:\\Users\\Jovnn\\documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jovnn\\Documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj": {
+    "C:\\Users\\Jovnn\\documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jovnn\\Documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj",
+        "projectUniqueName": "C:\\Users\\Jovnn\\documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj",
         "projectName": "Obligatorisk_oppgave",
-        "projectPath": "C:\\Users\\Jovnn\\Documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj",
+        "projectPath": "C:\\Users\\Jovnn\\documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk_oppgave.csproj",
         "packagesPath": "C:\\Users\\Jovnn\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jovnn\\Documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\Obligatorisk-Oppgave-1-IS-110-1-26V\\obj\\",
+        "outputPath": "C:\\Users\\Jovnn\\documents\\C#\\IS110_del2\\Obligatorisk-Oppgave-1-IS-110-1-26V\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jovnn\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,22 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[18.4.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.9.3, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.5, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
