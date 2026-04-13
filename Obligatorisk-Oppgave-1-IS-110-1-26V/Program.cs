@@ -98,11 +98,24 @@ void AddCourse(List<Course> courses)
     Console.WriteLine("Enter course name:");
     string courseName = Console.ReadLine();
 
+
+    //Feilhåndtering på input for course credit og course seats, slik at programmet ikke kras
+    // TryParse for å sikre at input er et gyldig tall, og ikke krasjer programmet. Hvis det ikke er et gyldig tall, vil den be om ny input.
     Console.WriteLine("Enter course credit:");
-    int courseCredit = int.Parse(Console.ReadLine());
+    int courseCredit;
+    while (!int.TryParse(Console.ReadLine(), out courseCredit))
+    {
+        Console.WriteLine("Invalid number. Try again:");
+    }
+
 
     Console.WriteLine("Enter course seats:");
-    int courseSeats = int.Parse(Console.ReadLine());
+    int courseSeats;
+    while (!int.TryParse(Console.ReadLine(), out courseSeats))
+    {
+        Console.WriteLine("Invalid number. Try again:");
+    }
+
 
     Console.WriteLine("Enter required study program:");
     string courseRe = Console.ReadLine();
@@ -587,11 +600,21 @@ void AddUser(List<User> users)
         Console.WriteLine("Enter home country:");
         string homeCountry = Console.ReadLine();
 
+
+        // Feilhåndtering på dato-input, slik at programmet ikke krasjer. Bruker TryParse for å prøve å konvertere input til DateTime, og hvis det ikke fungerer, så vil den be om ny input.
         Console.WriteLine("Enter start date (yyyy-mm-dd):");
-        DateTime start = DateTime.Parse(Console.ReadLine());
+        DateTime start;
+        while (!DateTime.TryParse(Console.ReadLine(), out start))
+        {
+            Console.WriteLine("Invalid date format. Please enter in yyyy-mm-dd format:");     
+        }
 
         Console.WriteLine("Enter end date (yyyy-mm-dd):");
-        DateTime end = DateTime.Parse(Console.ReadLine());
+        DateTime end;
+        while (!DateTime.TryParse(Console.ReadLine(), out end))
+        {
+            Console.WriteLine("Invalid date format. Please enter in yyyy-mm-dd format:");
+        }
 
         var newEx = new ExchangeStudent(id, name, email, username, password, program, homeUni, homeCountry, start, end);
         users.Add(newEx);
