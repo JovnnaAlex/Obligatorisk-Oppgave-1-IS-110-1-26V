@@ -11,15 +11,21 @@ public class Course
     public int CourseSeats { get; set; }   
     public string RequiredProgram { get; private set; } // Hvilket studieprogram kreves for å ta dette kurset, låses etter opprettelse
   
-    //Lager en liste "alle user" funker ikke for exchange students hvis det settes "student"
-    public List<User> EnrolledStudents { get; private set; } = new(); 
 
+    //Lager en liste
+    public List<Student> EnrolledStudents { get; private set; } = new(); 
+    public List<string> SyllabusBooks { get; private set; } = new(); // Liste for bøker som er pensum for kurset
+    
+    public Dictionary<string, string> Grades { get; private set; } = new(); // Dictionary for å lagre student‑ID og karakter
+    
     // Konstruktør
     public Course(string courseId, 
                   string courseName, 
                   int courseCredit, 
                   int courseSeats,
-                  string requiredProgram)
+                  string requiredProgram)   
+
+    
 
     {
         CourseId = courseId; 
