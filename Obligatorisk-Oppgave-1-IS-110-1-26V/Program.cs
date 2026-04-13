@@ -2,6 +2,7 @@
 using System.Reflection.Metadata;
 using Application;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 //----Lager tomme lister for å holde på data----
 
 // --- Gamle lister som ikke brukes i alle met
@@ -183,6 +184,63 @@ void RegisterStudent(List<User> users, List<Course> courses)
     }
 }
 
+// [2.5] Register student for course (student edition) - brukes av student for å registrere seg selv, så trenger ikke å skrive inn student ID
+void SelfRegister(Student student,  List<Course> courses) // Student student = den innloggede studenten, så slipper å skrive inn ID
+{
+    Console.WriteLine("Do you want to:");
+    Console.WriteLine("[1] Register to course");
+    Console.WriteLine("[2] Unregister  from course");
+    string choice = Console.ReadLine();
+
+    Console.WriteLine("Enter course ID:");
+    string courseId = Console.ReadLine();
+
+    Course course = courses.FirstOrDefault(c => c.CourseId == courseId);
+
+    if (course == null)
+    {
+        Console.WriteLine("Course not found.");
+        return;
+    }
+
+    // --- REGISTER ---
+    if (choice == "1")
+    {
+        if (course.EnrolledStudents.Contains(student))
+        {
+            Console.WriteLine("You are already registered in this course.");
+            return;
+        }
+
+        if (course.EnrolledStudents.Count >= course.CourseSeats)
+        {
+            Console.WriteLine("Course is full. Cannot register.");
+            return;
+        }
+
+        course.EnrolledStudents.Add(student);
+        Console.WriteLine($"You have been registered for {course.CourseName}.");
+    }
+
+    // --- UNREGISTER ---
+    else if (choice == "2")
+    {
+        if (!course.EnrolledStudents.Contains(student))
+        {
+            Console.WriteLine("You are not enrolled in this course.");
+            return;
+        }
+
+        course.EnrolledStudents.Remove(student);
+        Console.WriteLine($"You have been unregistered from {course.CourseName}.");
+    }
+
+    else
+    {
+        Console.WriteLine("Invalid choice.");
+    }
+}
+
 //         [3] Print courses and participants
 void PrintCourses(List<Course> courses)
 {
@@ -299,24 +357,24 @@ void LoanBook(List<Book> books, List<Loan> loans, List<User> users)
             book = matches[choice];
         }
     }
-// 3) Sjekk om det finnes tidligere lån for denne boken, og skriv ut historikk hvis det finnes
- var history = loans.Where(l => l.BookId == book.BookId && l.IsReturned);
+    // 3) Sjekk om det finnes tidligere lån for denne boken, og skriv ut historikk hvis det finnes
+    var history = loans.Where(l => l.BookId == book.BookId && l.IsReturned);
 
-    if (history.Any())
-    {
-        Console.WriteLine("\nPrevious loans for this book:");
-        foreach (var loan in history)
+        if (history.Any())
         {
-            Console.WriteLine(
-                $"Borrower: {loan.UserId}, Loaned: {loan.LoanDate}, Returned: {loan.ReturnDate}"
-            );
+            Console.WriteLine("\nPrevious loans for this book:");
+            foreach (var loan in history)
+            {
+                Console.WriteLine(
+                    $"Borrower: {loan.UserId}, Loaned: {loan.LoanDate}, Returned: {loan.ReturnDate}"
+                );
+            }
+            Console.WriteLine();
         }
-        Console.WriteLine();
-    }
-    else
-    {
-        Console.WriteLine("\nNo previous loan history for this book.\n");
-    }
+        else
+        {
+            Console.WriteLine("\nNo previous loan history for this book.\n");
+        }
 
     // 4) Sjekk tilgjengelighet
     if (book.Available <= 0)
@@ -476,6 +534,25 @@ void AddUser(List<User> users)
     Console.WriteLine("Enter password:");
     string password = Console.ReadLine();
 
+// Sjekker om det er duplsert input for f.eks ID eller username. Hvis det er det, så vil den ikke krasje, men heller be om ny input.
+    if (users.Any(u => u.Username == username))
+    {
+        Console.WriteLine("Username already exists. Please choose another.");
+        return;
+    }
+
+    if (users.Any(u => u.Email == email))
+    {
+        Console.WriteLine("Email already exists. Please choose another.");
+        return;
+    }
+
+    if (users.Any(u => u.Id == id))
+    {
+        Console.WriteLine("ID already exists. Please choose another.");
+        return;
+    }
+
     if (choice == "1")
     {
         Console.WriteLine("Enter study program:");
@@ -560,7 +637,7 @@ void AddUser(List<User> users)
     }
 }
 
-//         [Extra] View loans for alle users
+//        [Extra] View loans for alle users
 void ViewLoans(User user, List<Loan> loans, List<Book> books)
 {
     Console.WriteLine($"\n--- Loans for {user.Name} ---");
@@ -590,7 +667,7 @@ void ViewLoans(User user, List<Loan> loans, List<Book> books)
     }
 }
 
-
+//        [Extra] View loan history for librarians
 void ViewLoanHistory(List<Loan> loans, List<Book> books)
 
 {
@@ -614,7 +691,7 @@ void ViewLoanHistory(List<Loan> loans, List<Book> books)
         Console.WriteLine($"Returned: {loan.ReturnDate.Value.ToShortDateString()}");
     }
 }
-//         [Extra] View active loans for librarians
+//        [Extra] View active loans for librarians
 void ViewActiveLoans(List<Loan> loans, List<Book> books)
 {
     Console.WriteLine("\n--- Active Loans ---");
@@ -635,6 +712,131 @@ void ViewActiveLoans(List<Loan> loans, List<Book> books)
         Console.WriteLine($"Borrower: {loan.UserId}");
         Console.WriteLine($"Loan date: {loan.LoanDate.ToShortDateString()}");
         Console.WriteLine($"Due date: {loan.DueDate.ToShortDateString()}");
+    }
+}
+
+//        [Extra] Add syllabus book for courses (teachers only)
+void AddSyllabusBook(List<Course> courses, List<Book> books)
+{
+    Console.WriteLine("Available courses:");
+    foreach (var c in courses)
+    {
+        Console.WriteLine($"Course ID: {c.CourseId}, Name: {c.CourseName}");
+    }
+
+    Console.WriteLine("Enter course ID to add syllabus book:");
+    string courseCode = Console.ReadLine();
+
+    Course course = courses.FirstOrDefault(c => c.CourseId == courseCode);
+
+    if (course == null)
+    {
+        Console.WriteLine("Course not found.");
+        return;
+    }
+
+    Console.WriteLine("Available books:");
+    foreach (var b in books)
+    {
+        Console.WriteLine($"Book ID: {b.BookId}, Title: {b.Title}");
+    }
+
+    Console.WriteLine("Enter book ID to add as syllabus:");
+    string bookId = Console.ReadLine();
+
+    Book book = books.FirstOrDefault(b => b.BookId == bookId);
+
+    if (book == null)
+    {
+        Console.WriteLine("Book not found.");
+        return;
+    }
+
+    // Prevent duplicates (SyllabusBooks is List<string> of BookId)
+    if (course.SyllabusBooks.Contains(bookId))
+    {
+        Console.WriteLine("This book is already part of the syllabus.");
+        return;
+    }
+
+    // Add book ID to syllabus
+    course.SyllabusBooks.Add(bookId);
+
+    Console.WriteLine($"Book '{book.Title}' added to course '{course.CourseName}' syllabus.");
+}
+
+//        [Extra] Set grades for students (teachers only)
+void SetGrade(List<Course> courses, List<User> users)
+{
+    Console.WriteLine("Available courses:");
+    foreach (var c in courses)
+    {
+        Console.WriteLine($"Course ID: {c.CourseId}, Name: {c.CourseName}");
+    }
+
+    Console.WriteLine("Enter course ID to set grade:");
+    string courseCode = Console.ReadLine();
+
+    Course course = courses.FirstOrDefault(c => c.CourseId == courseCode);
+
+    if (course == null)
+    {
+        Console.WriteLine("Course not found.");
+        return;
+    }
+
+    Console.WriteLine("Enrolled students:");
+    foreach (var s in course.EnrolledStudents)
+    {
+        Console.WriteLine($"Student ID: {s.Id}, Name: {s.Name}");
+    }
+
+    Console.WriteLine("Enter student ID to set grade:");
+    string studentId = Console.ReadLine();
+
+    Student student = course.EnrolledStudents.FirstOrDefault(s => s.Id == studentId);
+
+    if (student == null)
+    {
+        Console.WriteLine("Student not found in this course.");
+        return;
+    }
+
+    Console.WriteLine("Enter grades ( A, B, C, D, E, F):");
+    string grade = Console.ReadLine();
+
+    // Setter karakter inni course karakter dictionary
+    course.Grades[studentId] = grade;
+
+    Console.WriteLine($"Grade '{grade}' set for student '{student.Name}' in course '{course.CourseName}'.");
+}
+
+//        [Extra] View grades for students (students only)
+void ViewGrades(User user, List<Course> courses)    
+{
+    Console.WriteLine($"\n--- Grades for {user.Name} ---");
+
+    // Finn alle kurs studenten er registrert i
+    var myCourses = courses.Where(c => c.EnrolledStudents.Any(s => s.Id == user.Id)).ToList();
+
+    if (myCourses.Count == 0)
+    {
+        Console.WriteLine("You are not enrolled in any courses.");
+        return;
+    }
+
+    foreach (var course in myCourses)
+    {
+        Console.WriteLine($"\nCourse: {course.CourseName}");
+
+        if (course.Grades.TryGetValue(user.Id, out string grade))
+        {
+            Console.WriteLine($"Grade: {grade}");
+        }
+        else
+        {
+            Console.WriteLine("Grade: Not set");
+        }
     }
 }
 //   ----Ulike menyer BASERT PÅ USER----
@@ -760,6 +962,8 @@ void TeacherMenu(User user, List<User> users, List<Book> books, List<Course> cou
         Console.WriteLine("[6] Loan book");
         Console.WriteLine("[7] Return book");
         Console.WriteLine("[8] View my loans");
+        Console.WriteLine("[9] Add Syllabus book");
+        Console.WriteLine("[10] Set student grade");
         Console.WriteLine("[0] Log out");
 
         string input = Console.ReadLine();
@@ -772,6 +976,8 @@ void TeacherMenu(User user, List<User> users, List<Book> books, List<Course> cou
         else if (input == "6") LoanBook(books, loans, users);
         else if (input == "7") ReturnBook(loans, books);
         else if (input == "8") ViewLoans(user, loans, books);
+        else if (input == "9") AddSyllabusBook(courses, books);
+        else if (input == "10") SetGrade(courses, users);
         else if (input == "0") running = false;
         else Console.WriteLine("Invalid input.");
 
@@ -823,6 +1029,8 @@ void StudentMenu(User user, List<User> users, List<Book> books, List<Course> cou
         Console.WriteLine("[5] Loan book");
         Console.WriteLine("[6] Return book");
         Console.WriteLine("[7] View my loans");
+        Console.WriteLine("[8] View my grades");
+        Console.WriteLine("[9] Register/unregister for course");
         Console.WriteLine("[0] Log out");
 
         string input = Console.ReadLine();
@@ -832,34 +1040,15 @@ void StudentMenu(User user, List<User> users, List<Book> books, List<Course> cou
             Console.WriteLine("\n--- PROFILE ---");
             user.PrintUserInfo();
         }
-        else if (input == "2")
-        {
-            SearchCourse(courses);
-        }
-        else if (input == "3")
-        {
-            PrintCourses(courses);
-        }
-        else if (input == "4")
-        {
-            SearchBook(books);
-        }
-        else if (input == "5")
-        {
-            LoanBook(books, loans, users); 
-        }
-        else if (input == "6")
-        {
-            ReturnBook(loans, books);
-        }
-        else if (input == "7")
-        {
-            ViewLoans(user, loans, books);
-        }
-        else if (input == "0")
-        {
-            studentRunning = false;
-        }
+        else if (input == "2") SearchCourse(courses);
+        else if (input == "3") PrintCourses(courses);
+        else if (input == "4") SearchBook(books);
+        else if (input == "5") LoanBook(books, loans, users); 
+        else if (input == "6") ReturnBook(loans, books);
+        else if (input == "7") ViewLoans(user, loans, books);
+        else if (input == "8") ViewGrades(user, courses);
+        else if (input == "9") SelfRegister((Student)user, courses); // Kaller SelfRegister og sender inn den innloggede studenten (castet til Student) og kurslisten
+        else if (input == "0")studentRunning = false;
         else
         {
             Console.WriteLine("Invalid input.");
@@ -919,7 +1108,7 @@ while (running)
     Console.WriteLine("1. Log in");
     Console.WriteLine("2. Register new user");
     Console.WriteLine("3. Exit");
-    
+
     string choice = Console.ReadLine();
 
     switch (choice)
